@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # BYU-Pathway Worldwide Online
 ## WDD 330 - Web Frontend Development II
 
@@ -29,3 +30,6 @@ https://whimsical-bienenstitch-b7f399.netlify.app/
 
 test
 
+=======
+# wdd330solo
+>>>>>>> bcc13a99fb211bc816ee58730fefd70021a4585c
