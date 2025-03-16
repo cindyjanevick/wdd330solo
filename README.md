@@ -33,3 +33,7 @@ test
 =======
 # wdd330solo
 >>>>>>> bcc13a99fb211bc816ee58730fefd70021a4585c
+
+
+netlify solo team:
+https://67d6757c423cb6963641c95b--sweet-gingersnap-563345.netlify.app/ 
