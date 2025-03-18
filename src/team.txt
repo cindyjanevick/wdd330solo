@@ -1,9 +1,8 @@
-Anderson Okai
-Chibuike Collins Okolie
+
 Cindy Vick
 
 link to trello board: trello.com/b/PwDEnacm/sleep-outside-team-1
 
-## Link to the production site on netlify
+## Link to the production site on netlify team solo
 
-https://whimsical-bienenstitch-b7f399.netlify.app/
+https://sweet-gingersnap-563345.netlify.app/ 
