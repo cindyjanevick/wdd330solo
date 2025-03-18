@@ -1,27 +1,54 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs"; 
+import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 // Function to render the cart items or show an empty cart message
 function renderCartContents() {
-  const cartItems = getLocalStorage("so-cart");
+  let cartItems = getLocalStorage("so-cart") || [];
+  const productList = document.querySelector(".product-list");
+  const cartFooter = document.querySelector(".cart-footer");
+  const cartTotal = document.querySelector(".cart-total");
 
-  if (!cartItems || cartItems.length === 0) {
-    document.querySelector(".product-list").innerHTML = "<p>Your cart is empty</p>";
-    document.querySelector(".cart-total").innerHTML = ""; // Clear total if cart is empty
+  if (cartItems.length === 0) {
+    productList.innerHTML = "<p>Your cart is empty</p>";
+    cartTotal.innerHTML = ""; // Clear total if cart is empty
+    cartFooter.classList.add("hide"); // Hide footer when cart is empty
     return;
   }
 
-  // Render cart items
-  const htmlItems = cartItems.map((item) => cartItemTemplate(item));
-  document.querySelector(".product-list").innerHTML = htmlItems.join("");
+  // Merge duplicate items by summing quantity
+  const mergedCart = mergeCartItems(cartItems);
 
-  // Attach event listeners to "X" buttons after rendering
-  document.querySelectorAll(".remove-item").forEach((button) => {
-    button.addEventListener("click", removeCartItem);
-  });
+  // Render cart items
+  const htmlItems = mergedCart.map(item => cartItemTemplate(item));
+  productList.innerHTML = htmlItems.join("");
 
   // Calculate and display total price
-  const totalPrice = cartItems.reduce((total, item) => total + item.FinalPrice, 0);
-  document.querySelector(".cart-total").innerHTML = `Total: $${totalPrice.toFixed(2)}`;
+  const totalPrice = mergedCart.reduce((total, item) => total + item.FinalPrice * item.Quantity, 0);
+  cartTotal.innerHTML = `Total: $${totalPrice.toFixed(2)}`;
+
+  cartFooter.classList.remove("hide"); // Show footer
+
+  // Add event listeners to all remove buttons
+  document.querySelectorAll(".remove-item").forEach(button => {
+    button.addEventListener("click", removeCartItem);
+  });
+}
+
+// Function to merge duplicate cart items
+function mergeCartItems(cartItems) {
+  const merged = [];
+
+  cartItems.forEach(item => {
+    const existing = merged.find(i => i.Id === item.Id);
+
+    if (existing) {
+      existing.Quantity += item.Quantity || 1;
+    } else {
+      item.Quantity = item.Quantity || 1;
+      merged.push(item);
+    }
+  });
+
+  return merged;
 }
 
 // Function to create the HTML template for a cart item
@@ -35,24 +62,28 @@ function cartItemTemplate(item) {
       <h2 class="card__name">${item.Name}</h2>
     </a>
     <p class="cart-card__color">${item.Colors[0].ColorName}</p>
-    <p class="cart-card__quantity">qty: ${item.Quantity || 1}</p>
-    <p class="cart-card__price">$${item.FinalPrice}</p>
+    <p class="cart-card__quantity">qty: ${item.Quantity}</p>
+    <p class="cart-card__price">$${(item.FinalPrice * item.Quantity).toFixed(2)}</p>
   </li>`;
 }
 
-// Function to remove item from cart
+// Function to remove an item from the cart (decrease quantity or remove)
 function removeCartItem(event) {
-  const itemId = event.target.dataset.id; // Get the item's ID
-  let cartItems = getLocalStorage("so-cart");
+  const productId = event.target.dataset.id;
+  let cartItems = getLocalStorage("so-cart") || [];
 
-  // Filter out the item with the matching ID
-  cartItems = cartItems.filter(item => item.Id !== itemId);
+  const itemIndex = cartItems.findIndex(item => item.Id === productId);
 
-  // Save the updated cart back to localStorage
-  setLocalStorage("so-cart", cartItems);
+  if (itemIndex !== -1) {
+    if (cartItems[itemIndex].Quantity && cartItems[itemIndex].Quantity > 1) {
+      cartItems[itemIndex].Quantity -= 1; // Decrement quantity
+    } else {
+      cartItems.splice(itemIndex, 1); // Remove item completely
+    }
 
-  // Re-render the cart
-  renderCartContents();
+    setLocalStorage("so-cart", cartItems);
+    renderCartContents(); // Update UI
+  }
 }
 
 // Call the function to render the cart on page load
