@@ -1,134 +1,123 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import { getLocalStorage, setLocalStorage, renderListWithTemplate } from "./utils.mjs";
+
+function cartItemTemplate(item) {
+  return `<li class="cart-card divider">
+    <a href="#" class="cart-card__image">
+      <img src="${item.Image}" alt="${item.Name}" />
+    </a>
+    <a href="#">
+      <h2 class="card__name">${item.Name}</h2>
+    </a>
+    <p class="cart-card__color">${item.Colors[0].ColorName}</p>
+    <p class="cart-card__quantity">qty: ${item.Quantity}</p>
+    <p class="cart-card__price">$${(item.FinalPrice * item.Quantity).toFixed(2)}</p>
+    <span class="cart-card__remove" data-id="${item.Id}">X</span>
+  </li>`;
+}
 
 export default class ShoppingCart {
-  constructor(cartKey = "so-cart", wishlistKey = "so-wishlist") {
-    this.cartKey = cartKey;
-    this.wishlistKey = wishlistKey;
-    this.cartItems = [];
-    this.wishlistItems = [];
+  constructor(listElement, footerElement) {
+    this.listElement = listElement;
+    this.footerElement = footerElement;
   }
 
   async init() {
-    this.cartItems = getLocalStorage(this.cartKey) || [];
-    this.renderCartContents();
-    this.updateCartSubtotal(this.cartItems);
-    this.setupListeners();
+    // Get cart items from localStorage
+    const cartItems = getLocalStorage("so-cart") || [];
+    
+    // Render the cart
+    this.renderCart(cartItems);
+    
+    // Setup event listeners for remove buttons
+    this.setupRemoveEvents();
   }
 
-  setupListeners() {
-    const cartContainer = document.querySelector(".product-list");
-
-    cartContainer?.addEventListener("click", (e) => {
-      const itemId = e.target.closest("[data-id]")?.dataset.id;
-      if (!itemId) return;
-
-      if (e.target.classList.contains("cart-remove")) {
-        this.removeItem(itemId);
-      } else if (e.target.classList.contains("add-to-wishlist")) {
-        this.addToWishlist(itemId);
-      } else if (e.target.classList.contains("quantity-increase")) {
-        this.updateQuantity(itemId, "increase");
-      } else if (e.target.classList.contains("quantity-decrease")) {
-        this.updateQuantity(itemId, "decrease");
-      }
-    });
-  }
-
-  renderCartContents() {
-    const htmlItems = this.cartItems.map(item => this.cartItemTemplate(item)).join("");
-    const element = document.querySelector(".product-list");
-
-    if (element) {
-      element.innerHTML = htmlItems;
-    }
-
-    this.updateCartSubtotal(this.cartItems);
-  }
-
-  cartItemTemplate(item) {
-    const quantity = item.Qtd || 1;
-    const totalPrice = item.ListPrice * quantity;
-
-    return `
-      <li class="cart-card" data-id="${item.Id}">
-        <a href="#" class="cart-card__image">
-          <img src="${item.Images.PrimaryMedium}" alt="${item.Name}" />
-        </a>
-        <div class="cart-card__info">
-          <a href="#"><h2 class="card__name">${item.Name}</h2></a>
-          <p class="cart-card__color">${item.Colors?.[0]?.ColorName || "N/A"}</p>
-          <p class="cart-card__quantity">
-            Quantity: 
-            <button class="quantity-btn quantity-decrease">-</button>
-            <span>${quantity}</span>
-            <button class="quantity-btn quantity-increase">+</button>
-          </p>
-          <p class="cart-card__price">$${totalPrice.toFixed(2)}</p>
-          <button class="cart-remove">X</button>
-          <button class="add-to-wishlist">Add to Wishlist</button>
-        </div>
-      </li>`;
-  }
-
-  updateQuantity(itemId, action) {
-    const itemIndex = this.cartItems.findIndex(item => item.Id === itemId);
-    if (itemIndex === -1) return;
-
-    let item = this.cartItems[itemIndex];
-    let quantity = item.Qtd || 1;
-
-    if (action === "increase") {
-      quantity++;
-    } else if (action === "decrease") {
-      quantity--;
-      if (quantity <= 0) {
-        this.removeItem(itemId);
-        return;
-      }
-    }
-
-    this.cartItems[itemIndex].Qtd = quantity;
-    setLocalStorage(this.cartKey, this.cartItems);
-    this.renderCartContents();
-  }
-
-  updateCartSubtotal(items) {
-    const subtotalContainer = document.querySelector(".cart-card__subtotal");
-    const cartCountContainer = document.querySelector(".cart-count");
-
-    if (!subtotalContainer || !cartCountContainer) return;
-
-    if (items.length === 0) {
-      subtotalContainer.classList.add("hide");
-      cartCountContainer.textContent = "0 items";
+  renderCart(cartItems) {
+    // Clear the current contents
+    this.listElement.innerHTML = "";
+    
+    if (cartItems.length === 0) {
+      this.listElement.innerHTML = "<p>Your cart is empty</p>";
+      this.footerElement.classList.add("hide");
       return;
     }
 
-    const subtotal = items.reduce((sum, item) => sum + (item.ListPrice * (item.Qtd || 1)), 0);
-    const totalCount = items.reduce((sum, item) => sum + (item.Qtd || 1), 0);
-
-    subtotalContainer.classList.remove("hide");
-    subtotalContainer.querySelector(".cart-subtotal").textContent = ` $${subtotal.toFixed(2)}`;
-    cartCountContainer.textContent = `${totalCount} item${totalCount > 1 ? "s" : ""}`;
+    // Combine duplicate items by summing their quantity
+    const mergedCart = this.mergeCartItems(cartItems);
+    
+    // Render cart items using the template and helper function
+    renderListWithTemplate(cartItemTemplate, this.listElement, mergedCart);
+    
+    // Calculate and display total price
+    const totalPrice = mergedCart.reduce(
+      (total, item) => total + item.FinalPrice * item.Quantity, 
+      0
+    );
+    
+    document.querySelector(".cart-total").innerHTML = 
+      `Total: $${totalPrice.toFixed(2)}`;
+    
+    // Show the cart footer
+    this.footerElement.classList.remove("hide");
   }
 
-  removeItem(itemId) {
-    this.cartItems = this.cartItems.filter(item => item.Id !== itemId);
-    setLocalStorage(this.cartKey, this.cartItems);
-    this.renderCartContents();
+  mergeCartItems(cartItems) {
+    const mergedCart = [];
+    
+    cartItems.forEach(item => {
+      // Find if this item already exists in our merged cart
+      const existingItemIndex = mergedCart.findIndex(i => i.Id === item.Id);
+      
+      if (existingItemIndex >= 0) {
+        // Item exists, increase quantity
+        mergedCart[existingItemIndex].Quantity += item.Quantity || 1;
+      } else {
+        // Item doesn't exist, add it with a quantity property
+        const newItem = { ...item };
+        newItem.Quantity = item.Quantity || 1;
+        mergedCart.push(newItem);
+      }
+    });
+    
+    return mergedCart;
   }
 
-  addToWishlist(itemId) {
-    const item = this.cartItems.find(item => item.Id === itemId);
-    if (!item) return;
+  setupRemoveEvents() {
+    // Remove any existing event listeners first to prevent duplicates
+    document.querySelectorAll(".cart-card__remove").forEach(button => {
+      // Clone and replace to remove any existing event listeners
+      const newButton = button.cloneNode(true);
+      button.parentNode.replaceChild(newButton, button);
+      
+      // Add the event listener to the new button
+      newButton.addEventListener("click", (e) => {
+        this.removeFromCart(e);
+      });
+    });
+  }
 
-    const exists = this.wishlistItems.some(wishItem => wishItem.Id === itemId);
-    if (!exists) {
-      this.wishlistItems.push(item);
-      setLocalStorage(this.wishlistKey, this.wishlistItems);
-      alert(`${item.Name} added to wishlist.`);
-    } else {
-      alert(`${item.Name} is already in your wishlist.`);
+  removeFromCart(e) {
+    const productId = e.target.dataset.id;
+    let cartItems = getLocalStorage("so-cart") || [];
+    
+    if (cartItems.length > 0) {
+      // We need to be careful with the merged cart approach
+      // Find the first occurrence of this item
+      const itemIndex = cartItems.findIndex(item => item.Id === productId);
+      
+      if (itemIndex !== -1) {
+        // Remove just one instance of this item
+        cartItems.splice(itemIndex, 1);
+        
+        // Update localStorage
+        setLocalStorage("so-cart", cartItems);
+        
+        // Re-render the cart
+        this.renderCart(cartItems);
+        
+        // Re-attach event listeners
+        this.setupRemoveEvents();
+      }
     }
   }
 }

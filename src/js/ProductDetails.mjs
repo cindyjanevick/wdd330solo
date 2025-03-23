@@ -1,6 +1,21 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
  
 function productDetailsTemplate(product) {
+  // Check if product is discounted
+  const isDiscounted = product.FinalPrice < product.SuggestedRetailPrice;
+  
+  // Calculate discount percentage if there's a discount
+  let discountHtml = "";
+  if (isDiscounted) {
+    const discountPercentage = Math.round(((product.SuggestedRetailPrice - product.FinalPrice) / product.SuggestedRetailPrice) * 100);
+    discountHtml = `
+      <div class="product-card__discount">
+        <span class="product-card__original-price">$${product.SuggestedRetailPrice.toFixed(2)}</span>
+        <span class="product-card__discount-badge">${discountPercentage}% OFF</span>
+      </div>
+    `;
+  }
+
   return `<section class="product-detail"> <h3>${product.Brand.Name}</h3>
     <h2 class="divider">${product.NameWithoutBrand}</h2>
     <img
@@ -8,7 +23,8 @@ function productDetailsTemplate(product) {
       src="${product.Image}"
       alt="${product.NameWithoutBrand}"
     />
-    <p class="product-card__price">$${product.FinalPrice}</p>
+    <p class="product-card__price">$${product.FinalPrice.toFixed(2)}</p>
+    ${discountHtml}
     <p class="product__color">${product.Colors[0].ColorName}</p>
     <p class="product__description">
     ${product.DescriptionHtmlSimple}

@@ -298,6 +298,31 @@ button {
   text-align: right;
 }
 
+/* Discount styling */
+.product-card__discount {
+  display: flex;
+  align-items: center;
+  margin-top: -0.5em;
+  margin-bottom: 0.5em;
+}
+
+.product-card__original-price {
+  text-decoration: line-through;
+  color: var(--light-grey);
+  margin-right: 0.5em;
+}
+
+.product-card__discount-badge {
+  background-color: red;
+  color: white;
+  padding: 0.2em 0.6em;
+  border-radius: 0.25em;
+  font-weight: bold;
+  font-size: var(--small-font);
+}
+/* End discount styling */
+
+
 /* Responsive adjustments */
 @media screen and (min-width: 500px) {
   body {
