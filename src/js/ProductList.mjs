@@ -1,43 +1,61 @@
-import { renderListWithTemplate } from "./utils.mjs";
+//purpose is to generate a list of product cards in HTML from an array
+import { renderListWithTemplate, createBreadcrumbs } from "./utils.mjs";
+import { generateDiscount } from "./ProductDetails.mjs";
 
-function productCardTemplate(product) {
-  return `<li class="product-card">
-  <a href="product_pages/index.html?product=${product.Id}">
-  <img
-    src="${product.Image}"
-    alt="Image of ${product.Name}"
-  />
-  <h3 class="card__brand">${product.Brand.Name}</h3>
-  <h2 class="card__name">${product.Name}</h2>
-  <p class="product-card__price">$${product.FinalPrice}</p></a>
-</li>`;
+//Template literal for product cards on main page
+function productCardTemplate(product){
+    return `<li class="product-card">
+    <a href="../product_pages/index.html?product=${product.Id}">
+    <img src="${product.Images.PrimaryMedium}" alt="${product.Name} ">
+    <h3 class="card__brand">${product.Brand.Name}</h3>
+    <h2 class="card__name">${product.NameWithoutBrand}</h2>
+    ${generateDiscount(product)}
+    <p class="product-card__price">$${product.FinalPrice}</p>
+    </a>
+</li>`
 }
 
-export default class ProductList {
-  constructor(category, dataSource, listElement) {
-    // We passed in this information to make our class as reusable as possible.
-    // Being able to define these things when we use the class will make it very flexible
-    this.category = category;
-    this.dataSource = dataSource;
-    this.listElement = listElement;
-  }
-  async init() {
-    // our dataSource will return a Promise...so we can use await to resolve it.
-    const list = await this.dataSource.getData();
-    // Filter out products where Available is false
-    const filteredList = list.filter(product => product.Available !== false);
+export default class ProductList{
+    constructor(category, dataSource){
+        this.category = category;
+        this.dataSource = dataSource;
+        this.listElement = document.querySelector(".product-list");
+        this.productList = [];
+    }
 
-    // Render the filtered list
-    this.renderList(filteredList);
-  }
-  // render after doing the first stretch
-  renderList(list) {
-    renderListWithTemplate(productCardTemplate, this.listElement, list);
-  }
+    async init(sortBy = "name"){
+        this.productList = await this.dataSource.getData(this.category);
+        this.sortProducts(sortBy);
+        this.renderList(this.productList)
+    }
+    
+    renderList(productList){
+        //filter out bad products before sending to render
+        this.listElement.textContent = ""
+        this.filter(productList);
+        renderListWithTemplate(productCardTemplate, this.listElement, productList, "afterbegin", false);
+        //add breadcrumbs based on existing (valid) products.
+        const validProducts = productList.filter(product => product);
+        const count = validProducts.length;
+        createBreadcrumbs(this.category, count);
+    }
 
-  // render before doing the stretch
-  // renderList(list) {
-  //   const htmlStrings = list.map(productCardTemplate);
-  //   this.listElement.insertAdjacentHTML("afterbegin", htmlStrings.join(""));
-  // }
+    filter(productList){
+        //filtering out by hardcoded id.  feels brute force but not seeing another way to filter?
+        const idFilters = ["880RT", "989CG"];
+        Object.keys(productList).forEach(key => {
+            const product = productList[key];
+            if (idFilters.includes(product.Id)) {
+                delete productList[key];
+            }
+        });
+    }
+
+    sortProducts(sortBy) {
+        if (sortBy === "name") {
+            this.productList.sort((a, b) => a.NameWithoutBrand.localeCompare(b.NameWithoutBrand))
+        } else if (sortBy === "price") {
+            this.productList.sort((a, b) => a.FinalPrice - b.FinalPrice)
+        }
+    }
 }
