@@ -1,4 +1,4 @@
-<!doctype html>
+<!Doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -6,6 +6,8 @@
     <title>Sleep Outside | Home</title>
     <link rel="stylesheet" href="/css/style.css" />
     <script src="js/main.js" type="module"></script>
+    <script src="/js/newsletter.js" type="module"></script>
+
   </head>
   <body>
     <header class="divider" id="main-header"></header>
@@ -81,10 +83,15 @@
           </li>
         </ul>
       </section>
-      <!-- <section class="products">
-        <h2>Top Products</h2>
-        <ul class="product-list"></ul>
-      </section> -->
+      <section class="newsletter-signup">
+        <h2>Stay Updated!</h2>
+        <p>Sign up to receive our newsletter with the latest deals and outdoor tips.</p>
+        <form id="newsletter-signup-form">
+          <input type="email" name="email" placeholder="Enter your email" required />
+          <button type="submit">Sign Up</button>
+        </form>
+      </section>
+      
     </main>
     <footer id="main-footer"></footer>
   </body>
