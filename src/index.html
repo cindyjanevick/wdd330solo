@@ -1,27 +1,20 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep Outside | Home</title>
-    <link rel="stylesheet" href="css/style.css" />
-    
-    <script type="module" src="./js/main.js"></script>
-
-
-
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="js/main.js" type="module"></script>
   </head>
   <body>
-    <header class="divider" id="main-header">
-    </header>
-      
+    <header class="divider" id="main-header"></header>
     <main class="divider">
       <div class="hero">
-        <img
-          src="/images/banner-sm.jpg"
-          srcset="images/banner-sm.jpg 500w, images/banner.jpg"
-          alt="image of a high mountain lake"
-        />
+        <picture>
+          <source media="(max-width: 600px)" srcset="/images/banner-sm.jpg" />
+          <img src="/images/banner.jpg" alt="image of a high mountain lake" />
+        </picture>
         <div class="logo logo--square">
           <img src="/images/noun_Tent_2517.svg" alt="tent image for logo" />
           <div>Sleep<span class="highlight">Outside</span></div>
@@ -36,49 +29,63 @@
           comfortably at an affordable price.
         </p>
       </section>
-      <section class="products">
-        <div id="product-listing" class="pl-grid-container">
-          <div class="pl-grid-item">
-            <a href="/product-listing/index.html?category=tents">
+      <section>
+        <ul class="product-grid">
+          <li>
+            <a
+              href="product_listing/index.html?category=tents"
+              class="product-card__image"
+            >
               <img
-                src="/images/category-tents.svg"
+                src="images/category_icons/noun_Tent_3544767.svg"
                 alt="Tent Icon from Noun Project: Mustofa Bayu"
               />
               Tents
             </a>
-          </div>
-          <div class="pl-grid-item">
-            <a href="/product-listing/index.html?category=backpacks">
+          </li>
+          <li>
+            <a
+              href="product_listing/index.html?category=backpacks"
+              class="product-card__image"
+            >
               <img
-                src="/images/category-backpacks.svg"
+                src="images/category_icons/noun_carrier bag_3544771.svg"
                 alt="Backpack Icon from Noun Project: Mustofa Bayu"
               />
-              Backpacks
+              backpacks
             </a>
-          </div>
-          <div class="pl-grid-item">
-            <a href="/product-listing/index.html?category=sleeping-bags">
+          </li>
+          <li>
+            <a
+              href="product_listing/index.html?category=sleeping-bags"
+              class="product-card__image"
+            >
               <img
-                src="/images/category-sleepingbags.svg"
+                src="images/category_icons/noun_Sleeping Bag_3544775.svg"
                 alt="Sleeping Bag Icon from Noun Project: Mustofa Bayu"
               />
               Sleeping Bags
             </a>
-          </div>
-          <div class="pl-grid-item">
-            <a href="/product-listing/index.html?category=hammocks">
+          </li>
+          <li>
+            <a
+              href="product_listing/index.html?category=hammocks"
+              class="product-card__image"
+            >
               <img
-                src="/images/category-hammocks.svg"
+                src="images/category_icons/noun_Hammock_791143.svg"
                 alt="Hammock Icon from Noun Project: Paul Richard"
               />
               Hammocks
             </a>
-          </div>
-        </div>
+          </li>
+        </ul>
       </section>
+      <!-- <section class="products">
+        <h2>Top Products</h2>
+        <ul class="product-list"></ul>
+      </section> -->
     </main>
-    <footer id="main-footer">
-    </footer>
-    
+    <footer id="main-footer"></footer>
   </body>
 </html>

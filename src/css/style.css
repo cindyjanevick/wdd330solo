@@ -7,34 +7,28 @@
   --tertiary-color: #a4b8c4;
   --light-grey: #d0d0d0;
   --dark-grey: #303030;
-
   /* sizes */
   --font-base: 18px;
   --small-font: 0.8em;
   --large-font: 1.2em;
 }
-
 * {
   box-sizing: border-box;
 }
-
 body {
   margin: 0;
   font-family: var(--font-body);
   font-size: var(--font-base);
   color: var(--dark-grey);
 }
-
 img {
   max-width: 100%;
 }
-
 header {
   display: flex;
   justify-content: space-between;
   padding: 0 10px;
 }
-
 .logo {
   line-height: 60px;
   width: 245px;
@@ -44,28 +38,23 @@ header {
   text-align: right;
   font-family: var(--font-headline);
 }
-
 .logo img {
   width: 60px;
   height: 60px;
 }
-
 .logo a {
   text-decoration: none;
   color: var(--font-body);
 }
-
 .hero {
   position: relative;
 }
-
 .hero .logo {
   position: absolute;
   left: calc(50% - 60px);
   bottom: -10px;
   background-color: white;
 }
-
 .logo--square {
   font-size: var(--small-font);
   width: 110px;
@@ -77,22 +66,18 @@ header {
   align-items: center;
   line-height: 1;
 }
-
 .logo--square img {
   width: 90px;
   height: 90px;
   margin-top: -1.3em;
 }
-
 .logo--square > div {
   margin-top: -1.7em;
 }
-
-/* Utility classes */
+/* utility classes */
 .highlight {
   color: var(--tertiary-color);
 }
-
 button {
   padding: 0.5em 2em;
   background-color: var(--secondary-color);
@@ -103,38 +88,59 @@ button {
   font-size: var(--large-font);
   cursor: pointer;
 }
-
 .divider {
   border-bottom: 2px solid var(--primary-color);
 }
-
+/* End utility classes */
 /* Cart icon styles */
 .cart {
   padding-top: 1em;
   position: relative;
   text-align: center;
 }
-
+/* Cart counter styles */
+.visible {
+  display: flex;
+  visibility: visible;
+}
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+#cart-count {
+  position: absolute;
+  top: 10%;
+  right: 0%;
+  background-color: #e5aa72;
+  color: #4e2286;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6em;
+  /* making w/h smaller than the numbers so the padding controls the size */
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
 .cart svg {
   width: 25px;
 }
-
 .cart:hover svg {
   fill: gray;
 }
-
-/* Mission and product list styles */
+/* End cart icon styles */
 .mission {
   padding: 0 0.5em;
+  /* margin: 0.5em 0; */
   line-height: 1.3;
   max-width: 600px;
   margin: auto;
 }
-
 .products {
   padding: 0.5em;
 }
-
 .product-list {
   display: flex;
   flex-flow: row wrap;
@@ -142,12 +148,11 @@ button {
   list-style-type: none;
   padding: 0;
 }
-
 .product-list a {
   text-decoration: none;
   color: var(--dark-grey);
 }
-
+/* Styles for product lists */
 .product-card {
   flex: 1 1 45%;
   margin: 0.25em;
@@ -155,224 +160,188 @@ button {
   border: 1px solid var(--light-grey);
   max-width: 250px;
 }
-
 .product-card h2,
 .product-card h3,
 .product-card p {
   margin: 0.5em 0;
 }
-
 .card__brand {
   font-size: var(--small-font);
 }
-
 .card__name {
   font-size: 1em;
 }
-
+/* End product list card */
 .product-detail {
   padding: 1em;
   max-width: 500px;
   margin: auto;
 }
-
 .product-detail img {
   width: 100%;
 }
-
-/* Cart item card */
+/* Start cart list card styles */
 .cart-card {
   display: grid;
   grid-template-columns: 25% auto 15%;
   font-size: var(--small-font);
+  /* max-height: 120px; */
   align-items: center;
   position: relative;
 }
-
+.close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  border: 1px solid black;
+  background: black;
+  color: white;
+}
 .cart-card__image {
   grid-row: 1/3;
   grid-column: 1;
 }
-
 .cart-card p {
   margin-top: 0;
 }
-
 .cart-card .card__name {
   grid-row: 1;
   grid-column: 2;
 }
-
 .cart-card__color {
   grid-row: 2;
   grid-column: 2;
 }
-
 .cart-card__quantity {
   grid-row: 1;
   grid-column: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-
 .cart-card__price {
   grid-row: 2;
   grid-column: 3;
 }
 
-/* Remove item button - unified style */
-.remove-item, .cart-card__remove {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background-color: red;
+/* Quantity button styles */
+.quantity-decrease,
+.quantity-increase {
+  background-color: var(--secondary-color);
   color: white;
   border: none;
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 3px;
+  font-size: 14px;
+  padding: 2px 6px;
+  margin: 0 5px;
   cursor: pointer;
-  transition: background 0.3s ease-in-out;
-  z-index: 10;
+  display: inline-block;
 }
 
-.remove-item:hover, .cart-card__remove:hover {
-  background-color: darkred;
+.quantity-decrease:hover,
+.quantity-increase:hover {
+  background-color: var(--primary-color);
 }
 
-/* categories */
-.product-categories {
-  padding: 2rem;
+/* Style for quantity text */
+.cart-card__quantity span {
+  display: inline-block;
+  min-width: 50px;
   text-align: center;
 }
 
-.product-categories h2 {
-  font-size: 2rem;
-  margin-bottom: 1.5rem;
-}
-
-.categories-grid {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-}
-
-.category-card {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #000;
-  font-weight: bold;
-  transition: transform 0.3s ease;
-}
-
-.category-card:hover {
-  transform: scale(1.05);
-}
-
-.category-card img {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 0.5rem;
-}
-
-/* Cart totals */
-.hide {
-  display: none;
-}
-
-.cart-footer {
-  padding: 1em;
-  border-top: 1px solid var(--light-grey);
-  margin-top: 1em;
-}
-
-.cart-total {
-  font-size: var(--large-font);
-  font-weight: bold;
-  text-align: right;
-}
-
-/* Discount styling */
-.product-card__discount {
-  display: flex;
-  align-items: center;
-  margin-top: -0.5em;
-  margin-bottom: 0.5em;
-}
-
-.product-card__original-price {
-  text-decoration: line-through;
-  color: var(--light-grey);
-  margin-right: 0.5em;
-}
-
-.product-card__discount-badge {
-  background-color: red;
-  color: white;
-  padding: 0.2em 0.6em;
-  border-radius: 0.25em;
-  font-weight: bold;
-  font-size: var(--small-font);
-}
-/* End discount styling */
-
-/* Main Page Grid */
-.pl-grid-container {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  align-items: center;
-  gap: 20px;
-  width: 80%;
-  max-width: 600px;
-  margin: 0 auto; /* CENTER the container */
-}
-
-
-.pl-grid-item {
-  padding: 40px;
-  text-align: center;
-  border-radius: 8px;
-  font-size: 1.2em;
-}
-
-.pl-grid-item img {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  display: block;
-  margin: 0 auto 10px auto; /* center image inside item */
-}
-
-.pl-grid-item a {
-  text-decoration: none;
-  cursor: hand;
-  color: var(--dark-grey);
-}
-
-/* Responsive adjustments */
 @media screen and (min-width: 500px) {
   body {
     max-width: 1080px;
     margin: auto;
   }
-
   .mission {
     font-size: 1.2em;
   }
-
   .cart-card {
     font-size: inherit;
     grid-template-columns: 150px auto 15%;
   }
+  
+  /* Adjust quantity controls for larger screens */
+  .cart-card__quantity {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  .quantity-decrease,
+  .quantity-increase {
+    font-size: 16px;
+    padding: 3px 8px;
+  }
+  
+  .cart-card__quantity span {
+    min-width: 60px;
+  }
 }
-
 footer {
   font-size: var(--small-font);
   padding: 1em;
+}
+/* product grid styles */
+.product-grid {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+  color: var(--dark-grey);
+  padding-left: 0;
+}
+.product-grid > li {
+  width: 150px;
+  /* border: 1px solid var(--light-grey); */
+  padding: 0.5em;
+  margin: 1em;
+}
+.product-grid h2 {
+  margin: 0;
+  font-size: 1.2em;
+}
+.product-grid a {
+  text-decoration: none;
+}
+.product-grid a:link,
+.product-grid a:visited {
+  color: var(--dark-grey);
+}
+.product-grid a:hover {
+  text-decoration: underline;
+}
+/* Style discount */
+span.product-original {
+  text-decoration: line-through;
+  color: #303030;
+}
+span.product-final {
+  color: green;
+}
+span.product-percentage {
+  font-style: italic;
+  font-size: 0.9rem;
+  color: red;
+}
+/* style breadcrumbs */
+.breadcrumbs {
+  text-transform: capitalize;
+  padding-left: 1rem;
+  font-weight: 700;
+  padding-top: 0.5rem;
+}
+
+/* Empty cart styling */
+.empty-cart {
+  text-align: center;
+  padding: 2em;
+  font-size: 1.2em;
+  color: var(--dark-grey);
 }
