@@ -20,7 +20,8 @@
       "Name": "Marmot"
     },
     "ListPrice": 199.99,
-    "FinalPrice": 199.99
+    "FinalPrice": 199.99,
+    "Available": true
   },
   {
     "Id": "985RF",
@@ -42,13 +43,14 @@
       "Name": "The North Face"
     },
     "ListPrice": 199.99,
-    "FinalPrice": 199.99
+    "FinalPrice": 199.99,
+    "Available": true
   },
   {
     "Id": "989CG",
     "NameWithoutBrand": "Talus Tent - 3-Person, 3-Season",
     "Name": "The North Face Talus Tent - 3-Person, 3-Season",
-    "Image": "../images/tents/the-north-face-talus-tent-4-person-3-season-in-golden-oak-saffron-yellow~p~985rf_01~320.jpg",
+    "Image": "../images/tents/the-north-face-talus-tent-3-person-3-season-in-golden-oak-saffron-yellow~p~989cg_01~320.jpg",
 
     "SizesAvailable": {},
     "Colors": [
@@ -64,7 +66,8 @@
       "Name": "The North Face"
     },
     "ListPrice": 179.99,
-    "FinalPrice": 179.99
+    "FinalPrice": 179.99,
+    "Available": false
   },
   {
     "Id": "985PR",
@@ -86,13 +89,14 @@
       "Name": "The North Face"
     },
     "ListPrice": 349.99,
-    "FinalPrice": 349.99
+    "FinalPrice": 349.99,
+    "Available": true
   },
   {
     "Id": "880RT",
     "NameWithoutBrand": "Ajax Tent - 2-Person, 3-Season",
     "Name": "Marmot Ajax Tent - 2-Person, 3-Season",
-    "Image": "../images/tents/marmot-ajax-tent-3-person-3-season-in-pale-pumpkin-terracotta~p~880rr_01~320.jpg",
+    "Image": "../images/tents/marmot-ajax-tent-2-person-3-season-in-pale-pumpkin-terracotta~p~880rt_01~320.jpg",
 
     "SizesAvailable": {},
     "Colors": [
@@ -108,7 +112,8 @@
       "Name": "Marmot"
     },
     "ListPrice": 179.99,
-    "FinalPrice": 179.99
+    "FinalPrice": 179.99,
+    "Available": false
   },
 
   {
@@ -132,6 +137,7 @@
       "Name": "Cedar Ridge"
     },
     "ListPrice": 69.99,
-    "FinalPrice": 69.99
+    "FinalPrice": 69.99,
+    "Available": true
   }
 ]
