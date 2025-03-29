@@ -148,7 +148,7 @@ button {
   padding: 0.5em;
 }
 .product-list {
-  display: flex;
+  /* display: flex; */
   flex-flow: row wrap;
   justify-content: space-between;
   list-style-type: none;
@@ -189,27 +189,38 @@ button {
 /* Start cart list card styles */
 .cart-card {
   display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr 2fr 1fr auto; /* Adjust column sizes */
   align-items: center;
   padding: 10px;
-  border: 1px solid var(--light-grey);
-  margin-bottom: 20px;
-  background-color: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  gap: 10px;
+  position: relative; /* For positioning the X button */
 }
+
+
 .close-btn {
   position: absolute;
-  right: 0;
-  top: 0;
-  padding: 2px;
-  font-size: 10px;
-  font-weight: bold;
-  border: 1px solid black;
-  background: black;
+  top: 10px;
+  right: 10px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--dark-grey);
   color: white;
+  cursor: pointer;
+  font-weight: bold;
 }
+
+.cart-card__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center text horizontally */
+  text-align: center; /* Ensure text stays centered */
+}
+
 .cart-card__image {
   grid-column: 1;
   max-width: 100px;
@@ -514,7 +525,7 @@ button {
 }
 
 button:hover {
-  background-color: #3498db;
+  background-color: var(--secondary-color);
 }
 
 button:disabled {

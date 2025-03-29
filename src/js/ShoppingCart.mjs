@@ -7,6 +7,8 @@ import {
 export default class ShoppingCart {
   constructor(key, parentSelector) {
     this.key = key; // Ensure this matches what is being used in local storage
+    
+
     this.parentSelector = parentSelector;
     // Call updateCartIcon when the cart is first initialized
     this.updateCartIcon();
@@ -212,7 +214,7 @@ function cartItemTemplate(item) {
   const quantity = item.Q || 1;
   return `
     <li class="cart-card divider" id="${item.Id}">
-      <button class="close-btn" data-id="${item.Id}">X</button>
+      <button class="close-btn" data-id="${item.Id}">🗶</button>
       <a href="#" class="cart-card__image">
         <img src="${item.Images.PrimaryMedium}" alt="${item.Name}" />
       </a>
