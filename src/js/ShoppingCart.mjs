@@ -3,6 +3,7 @@ import {
   hideElement,
   showElement,
   getCartCount,
+  alertMessage,
 } from "./utils.mjs";
 export default class ShoppingCart {
   constructor(key, parentSelector) {
@@ -120,16 +121,20 @@ export default class ShoppingCart {
   
   // Displays a message when the cart is empty
   displayEmptyCartMessage() {
-    document.querySelector(this.parentSelector).innerHTML = `
-      <p class="empty-cart">Your cart is empty.</p>
-    `;
-    
-    // Hide the cart footer when cart is empty
-    const element = document.getElementById("cart-footer");
-    if (element) {
-      hideElement(element);
-    }
+  // Display empty cart message in the cart area
+  document.querySelector(this.parentSelector).innerHTML = `
+    <p class="empty-cart">Your cart is empty.</p>
+  `;
+  
+  // Show permanent alert message at the top
+  alertMessage("Your cart is empty. Please add items before checking out.", true, 0, true);
+  
+  // Hide the cart footer when cart is empty
+  const element = document.getElementById("cart-footer");
+  if (element) {
+    hideElement(element);
   }
+}
   
   // Removes an item from the cart and updates the UI
   removeItem(id) {
@@ -212,7 +217,7 @@ function cartItemTemplate(item) {
   const quantity = item.Q || 1;
   return `
     <li class="cart-card divider" id="${item.Id}">
-      <button class="close-btn" data-id="${item.Id}">X</button>
+      <button class="close-btn" data-id="${item.Id}">🗙</button>
       <a href="#" class="cart-card__image">
         <img src="${item.Images.PrimaryMedium}" alt="${item.Name}" />
       </a>
