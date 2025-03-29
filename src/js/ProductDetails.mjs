@@ -50,6 +50,7 @@ export default class ProductDetail {
         document.getElementById("addToCart").addEventListener("click", () => {
             this.addToCart();
         });
+        
     }
 
     // This method dynamically generates and inserts product details into the page.

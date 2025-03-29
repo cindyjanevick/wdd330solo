@@ -162,11 +162,13 @@ button {
 }
 /* Cart animations */
 .cart.animate svg path {
-  animation: cartPulse 0.6s ease;
+  animation: cartPulse 0.6s ease-in-out;
 }
+
 #cart-count.animate {
-  animation: bounceCount 0.6s ease;
+  animation: bounceCount 0.6s ease-in-out;
 }
+
 @keyframes cartPulse {
   0% {
     transform: scale(1);
@@ -181,6 +183,7 @@ button {
     fill: black;
   }
 }
+
 @keyframes bounceCount {
   0% {
     transform: scale(1);
@@ -195,25 +198,54 @@ button {
     background-color: #e5aa72;
   }
 }
+
 @keyframes cartShake {
-  0% { transform: rotate(0deg); fill: black; }
-  25% { transform: rotate(-5deg); fill: #c53030; }
-  50% { transform: rotate(5deg); fill: #c53030; }
-  75% { transform: rotate(-5deg); fill: #c53030; }
-  100% { transform: rotate(0deg); fill: black; }
+  0% {
+    transform: rotate(0deg);
+    fill: black;
+  }
+  25% {
+    transform: rotate(-5deg);
+    fill: #c53030;
+  }
+  50% {
+    transform: rotate(5deg);
+    fill: #c53030;
+  }
+  75% {
+    transform: rotate(-5deg);
+    fill: #c53030;
+  }
+  100% {
+    transform: rotate(0deg);
+    fill: black;
+  }
 }
+
 @keyframes countShrink {
-  0% { transform: scale(1); background-color: #e5aa72; }
-  50% { transform: scale(0.8); background-color: #c53030; }
-  100% { transform: scale(1); background-color: #e5aa72; }
+  0% {
+    transform: scale(1);
+    background-color: #e5aa72;
+  }
+  50% {
+    transform: scale(0.8);
+    background-color: #c53030;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #e5aa72;
+  }
 }
+
 .cart.remove svg path {
-  animation: cartShake 0.4s ease;
+  animation: cartShake 0.4s ease-out;
 }
+
 #cart-count.remove {
-  animation: countShrink 0.4s ease;
+  animation: countShrink 0.4s ease-out;
 }
-/* cart-counter animation */
+
+/* Cart-counter animation */
 @keyframes fadeInSlide {
   0% {
     opacity: 0;
@@ -224,17 +256,123 @@ button {
     transform: translateY(0);
   }
 }
+
 /* Bag / Cart Animation */
 @keyframes cartBounce {
-  0% { transform: scale(1); fill: black; }
-  50% { transform: scale(1.3); fill: var(--secondary-color); }
-  100% { transform: scale(1); fill: black; }
+  0% {
+    transform: scale(1);
+    fill: black;
+  }
+  50% {
+    transform: scale(1.3);
+    fill: var(--secondary-color);
+  }
+  100% {
+    transform: scale(1);
+    fill: black;
+  }
 }
+
 @keyframes countPop {
-  0% { transform: scale(1); background-color: var(--primary-color); }
-  50% { transform: scale(1.4); background-color: #5a8f3c; }
-  100% { transform: scale(1); background-color: #e5aa72; }
+  0% {
+    transform: scale(1);
+    background-color: var(--primary-color);
+  }
+  50% {
+    transform: scale(1.4);
+    background-color: #5a8f3c;
+  }
+  100% {
+    transform: scale(1);
+    background-color: #e5aa72;
+  }
 }
+
+/* New Animations */
+
+/* Zoom-in Animation */
+@keyframes zoomIn {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cart.zoom-in {
+  animation: zoomIn 0.5s ease-in-out;
+}
+
+/* Wiggle Animation */
+@keyframes wiggle {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+  100% {
+    transform: rotate(0deg);
+  }
+}
+
+.cart.wiggle {
+  animation: wiggle 0.5s ease-in-out;
+}
+
+/* Bounce Animation */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-5px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.cart.bounce {
+  animation: bounce 0.5s ease-in-out;
+}
+
+/* Pulse Animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.cart.pulse {
+  animation: pulse 0.6s ease-in-out infinite;
+}
+
+
 /* End cart icon styles */
 .mission {
   padding: 0 0.5em;
