@@ -293,6 +293,7 @@ button {
   /* max-height: 120px; */
   align-items: center;
   position: relative;
+  width:100%;
 }
 .close-btn {
   position: absolute;
@@ -636,4 +637,107 @@ span.product-percentage {
   height: 1px; width: 1px;
   overflow: hidden;
   clip: rect(1px, 1px, 1px, 1px);
+}
+/* Form Styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Fieldset Styling */
+fieldset {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px;
+  background: #fff;
+  margin-bottom: 10px;
+}
+
+legend {
+  font-weight: bold;
+  color: #444;
+  padding: 5px 10px;
+}
+
+/* Label and Input Fields */
+label {
+  display: block;
+  font-weight: bold;
+  margin: 8px 0 5px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 16px;
+}
+
+/* Order Summary */
+.order__summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  font-size: 16px;
+}
+
+.order__summary div:last-child {
+  font-weight: bold;
+  font-size: 18px;
+  color: #007bff;
+}
+
+/* Checkout Button */
+button#checkoutSubmit {
+  display: block;
+  width: 100%;
+  background: #007bff;
+  color: white;
+  padding: 12px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease-in-out;
+}
+
+button#checkoutSubmit:hover {
+  background: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  main {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .order__summary {
+    font-size: 14px;
+  }
+
+  button#checkoutSubmit {
+    font-size: 16px;
+    padding: 10px;
+  }
+}
+.return-home {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background 0.3s ease-in-out;
+}
+
+.return-home:hover {
+  background-color: #0056b3;
 }
