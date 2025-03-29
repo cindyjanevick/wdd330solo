@@ -1,18 +1,22 @@
+//used to populate checkout/index.html data
 import { loadHeaderFooter } from "./utils.mjs";
 import CheckoutProcess from "./CheckoutProcess.mjs";
 
+//Loads in the Header/Footer Templates
 loadHeaderFooter();
 
-const myCheckout = new CheckoutProcess("so-cart", ".summary");
-myCheckout.init();
+const order = new CheckoutProcess("cart", ".checkout-summary");
+order.init();
 
-// Ensure total updates when user fills ZIP code
-document.querySelector("#zip").addEventListener("blur", () => {
-  myCheckout.calculateOrderTotal();
-});
+document.querySelector("#zip").addEventListener("blur", order.calculateOrderTotal.bind(order));
 
-// Handle checkout submission
-document.querySelector("#paySubmit").addEventListener("click", (e) => {
-  e.preventDefault();
-  myCheckout.checkout();
-});
+document.querySelector("#checkoutSubmit").addEventListener("click", (e) => {
+    e.preventDefault();
+    const checkoutForm = document.forms[0];
+    const isValid = checkoutForm.checkValidity();
+    checkoutForm.reportValidity();
+  
+    if (isValid) {
+      order.checkout(); // Let the CheckoutProcess handle success/failure
+    }
+  });

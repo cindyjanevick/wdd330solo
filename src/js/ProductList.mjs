@@ -4,16 +4,27 @@ import { generateDiscount } from "./ProductDetails.mjs";
 
 //Template literal for product cards on main page
 function productCardTemplate(product){
+    // Retrieve saved rating (defaulting to 0 if not set)
+    const savedRating = localStorage.getItem(`rating-${product.Id}`) || 0;
+    let ratingHTML = `<div class="product-rating">`;
+    // Build a 5-star rating display
+    for (let i = 1; i <= 5; i++) {
+      ratingHTML += i <= savedRating ? "★" : "☆";
+    }
+    ratingHTML += `</div>`;
+    
     return `<li class="product-card">
-    <a href="../product_pages/index.html?product=${product.Id}">
-    <img src="${product.Images.PrimaryMedium}" alt="${product.Name} ">
-    <h3 class="card__brand">${product.Brand.Name}</h3>
-    <h2 class="card__name">${product.NameWithoutBrand}</h2>
-    ${generateDiscount(product)}
-    <p class="product-card__price">$${product.FinalPrice}</p>
-    </a>
-</li>`
-}
+      <a href="../product_pages/index.html?product=${product.Id}">
+        <img src="${product.Images.PrimaryMedium}" alt="${product.Name}">
+        <h3 class="card__brand">${product.Brand.Name}</h3>
+        <h2 class="card__name">${product.NameWithoutBrand}</h2>
+        ${generateDiscount(product)}
+        <p class="product-card__price">$${product.FinalPrice}</p>
+        ${ratingHTML}
+      </a>
+    </li>`;
+  }
+  
 
 export default class ProductList{
     constructor(category, dataSource){

@@ -2,7 +2,7 @@
 // It feeds data into `product.js`, which then populates the `product_pages/index.html` page with the relevant information.
 // Additionally, it includes an 'Add to Cart' functionality for adding the product to the shopping cart.
 
-import { setLocalStorage, getLocalStorage, renderCartCount, createBreadcrumbs } from "./utils.mjs";
+import { setLocalStorage, getLocalStorage, renderCartCount, createBreadcrumbs, animateCartIcon } from "./utils.mjs";
 
 // Function to generate discount details based on price comparison
 export function generateDiscount(product) {
@@ -102,14 +102,15 @@ export default class ProductDetail {
             Q: 1,
             Images: this.product.Images 
           };
-          // console.log("Before pushing:", optimizedData); // Debugging log
+        //   console.log("Before pushing:", optimizedData); // Debugging log
           optimizedData = JSON.parse(JSON.stringify(optimizedData));
           cart.push({ ...optimizedData});
-          // console.log("Cart AFTER pushing:", JSON.stringify(cart, null, 2)); // Debugging log
+        //   console.log("Cart AFTER pushing:", JSON.stringify(cart, null, 2)); // Debugging log
         }
       
         setLocalStorage("cart", cart);
         renderCartCount();
+        animateCartIcon();
         // console.log("Added to cart:", getLocalStorage("cart")); // Debugging log
       }
 }

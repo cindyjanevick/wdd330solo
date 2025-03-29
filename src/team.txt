@@ -1,7 +1,8 @@
-teamsolo
+Anderson Okai
+Chibuike Collins Okolie
 Cindy Vick
 
-link to trello board: https://trello.com/b/tQjtjV1Q/sleep-outside-trello-board
+link to trello board: trello.com/b/PwDEnacm/sleep-outside-team-1
 
 ## Link to the production site on netlify
 
