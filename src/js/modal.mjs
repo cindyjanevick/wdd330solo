@@ -23,7 +23,7 @@ export default class Modal {
         <div class="modal-content">
           <div class="header">
             <h5 id="modal-title">${this.title}</h5>
-            <button id="close-modal" type="button" aria-label="Close modal">X</button>
+            <button id="close-modal" type="button" aria-label="Close modal">🗙</button>
           </div>
           <div class="modal-body">
             ${this.message}
